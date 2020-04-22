@@ -9,6 +9,9 @@
 import XCTest
 @testable import DebugToolset
 
+/// use this as the standard logging functionality
+var std = DebugLog()
+
 class TestDebugLog: XCTestCase {
 
     override func setUpWithError() throws {

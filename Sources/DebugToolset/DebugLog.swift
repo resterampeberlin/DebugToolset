@@ -8,9 +8,6 @@
 
 import Foundation
 
-/// use this as the standard logging functionality
-var std = DebugLog()
-
 /// A general logging struct
 struct DebugLog {
     

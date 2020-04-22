@@ -9,7 +9,7 @@
 import Foundation
 
 /// A general logging struct
-struct DebugLog {
+public struct DebugLog {
     
     /// Indent level
     private(set) var indent = 0
@@ -40,7 +40,7 @@ struct DebugLog {
     
     #endif
     
-    enum Highlight {
+    public enum Highlight {
         case none, information, warning, error
     }
     

@@ -16,14 +16,14 @@ public var std = DebugLog()
 public struct DebugLog {
     
     /// Indent level
-    private(set) var indent = 0
+    public private(set) var indent = 0
     
     /// This array holds all the classes/structs.function for which "start" is called
     private var stack: [String] = []
     
     /// Error and warnings counter
-    private(set) var errors = 0
-    private(set) var warnings = 0
+    public private(set) var errors = 0
+    public private(set) var warnings = 0
     
     /// When set to true, nothing will be printed
     #if DEBUG
@@ -32,7 +32,7 @@ public struct DebugLog {
     
     #else
     
-    // in npn debug build it will be always silent
+    // in non debug build it will be always silent
     var silent: Bool {
         get {
             return true

@@ -309,7 +309,18 @@ public struct DebugLog {
         print("\(fileName):\(line)\t- \(buffer)", highlight: .none)
         
         buffer = ""
-    }    
+    }
+    
+    /// Print statistics and reset if necessary
+    /// - Parameter reset: reset errors and warnings if true
+    public mutating func summary(reset: Bool = true) {
+        print("Total: \(errors) errors, \(warnings) warnings", highlight: .none)
+        
+        if reset {
+            errors = 0
+            warnings = 0
+        }
+    }
 }
 
 

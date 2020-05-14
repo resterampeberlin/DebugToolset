@@ -314,8 +314,10 @@ public struct DebugLog {
     /// Print statistics and reset if necessary
     /// - Parameter reset: reset errors and warnings if true
     public mutating func summary(reset: Bool = true) {
+        print(String(repeating: "=", count: 80))
         print("Total: \(errors) errors, \(warnings) warnings", highlight: .none)
-        
+        print(String(repeating: "=", count: 80))
+
         if reset {
             errors = 0
             warnings = 0

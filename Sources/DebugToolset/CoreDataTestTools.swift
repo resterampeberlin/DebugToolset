@@ -76,21 +76,24 @@ public struct CoreDataTest {
     public func resetStore() {
         let coordinator = container.persistentStoreCoordinator
                 
-        do {
-            // delete entire store
-            for entity in container.managedObjectModel.entities {
-                let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity.name!)
-                let count = try? context.count(for: fetchRequest)
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-                
+        // delete entire store
+        for entity in container.managedObjectModel.entities {
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity.name!)
+            let count = try? context.count(for: fetchRequest)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            
+            do {
                 try coordinator.execute(deleteRequest, with: context)
-                
-                std.info("\(count!) records for \(entity.name!) deleted")
+            }
+            catch {
+                // BatchDelete could lead to an inconsistent data model since it does not respect
+                // relationships. In this case I do not care, because I am deleting the whole store, so at the end
+                // it will be consistent
+                // see https://www.avanderlee.com/swift/nsbatchdeleterequest-core-data/
+                std.info("Exception occured \(error) which is probably ok", highlight: .none)
             }
             
-        }
-        catch {
-            std.error("Exception occured \(error)")
+            std.info("\(count!) records for \(entity.name!) deleted")
         }
     }
     

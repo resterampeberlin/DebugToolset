@@ -162,7 +162,7 @@ public struct DebugLog {
         stack.append(functionId(object: object, function: function))
         
         print(String(repeating: "-", count: 80))
-        log(object, message: "🔽", file: file, function: function, line: line)
+        log(object, message: "🔽", verbose: false, file: file, function: function, line: line)
         
         // post condition
         assert(indent == stack.count)
@@ -242,7 +242,7 @@ public struct DebugLog {
         
         indent = newIndent
         
-        log(object, message: "🔼", file: file, function: function, line: line)
+        log(object, message: "🔼", verbose: false, file: file, function: function, line: line)
         print(String(repeating: "-", count: 80))
         
         indent -= 1
@@ -314,8 +314,10 @@ public struct DebugLog {
     /// Print statistics and reset if necessary
     /// - Parameter reset: reset errors and warnings if true
     public mutating func summary(reset: Bool = true) {
+        let highlight: Highlight = errors > 0 ? .error : (warnings > 0 ? .warning : .information)
+        
         print(String(repeating: "=", count: 80))
-        print("Total: \(errors) errors, \(warnings) warnings", highlight: .none)
+        print("Total: \(errors) errors, \(warnings) warnings", highlight: highlight)
         print(String(repeating: "=", count: 80))
 
         if reset {

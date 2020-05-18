@@ -81,9 +81,13 @@ public struct CoreDataTest {
             let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity.name!)
             let count = try? context.count(for: fetchRequest)
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+            deleteRequest.resultType = .resultTypeObjectIDs
             
             do {
-                try coordinator.execute(deleteRequest, with: context)
+                let result = try coordinator.execute(deleteRequest, with: context) as? NSBatchDeleteResult
+                let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [context])
             }
             catch {
                 // BatchDelete could lead to an inconsistent data model since it does not respect
@@ -109,3 +113,5 @@ public struct CoreDataTest {
         std.info("Store succesfully saved")
     }
 }
+
+
